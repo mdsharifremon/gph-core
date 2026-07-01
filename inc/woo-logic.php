@@ -17,6 +17,7 @@ defined('ABSPATH') || exit;
  * @param array $args WooCommerce ordering arguments.
  * @return array Modified ordering arguments.
  */
+
 add_filter('woocommerce_get_catalog_ordering_args', 'gph_core_enforce_manual_order', 999);
 function gph_core_enforce_manual_order($args)
 {
@@ -102,23 +103,3 @@ function gph_core_exclude_subcategory_products_from_parent($query)
     $query->set('tax_query', $tax_query);
 }
 
-
-// Old version of the manual order enforcement filter, kept here for reference. The new version above is more robust and respects user-selected sorting from the frontend dropdown.
-
-// add_filter('woocommerce_get_catalog_ordering_args', 'gph_core_enforce_manual_order', 999);
-// function gph_core_enforce_manual_order($args)
-// {
-//     if (!is_array($args) || !gph_core_is_woocommerce_active()) {
-//         return $args;
-//     }
-
-//     // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-//     if (!empty($_GET['orderby'])) {
-//         return $args;
-//     }
-
-//     $args['orderby'] = 'menu_order title';
-//     $args['order'] = 'ASC';
-
-//     return $args;
-// }
