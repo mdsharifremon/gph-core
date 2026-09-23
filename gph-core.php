@@ -66,8 +66,7 @@ function gph_core_init() {
 			'inc/woo-loop-sku.php',
 			'inc/woo-shipping-notice.php',
 			'inc/order-notices.php',
-			'inc/recaptcha-checkout.php',
-			'inc/checkout-protection.php',
+			'inc/checkout-protection/bootstrap.php',
 		);
 
 		foreach ($woo_files as $file) {

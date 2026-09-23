@@ -1,0 +1,123 @@
+/**
+ * Checkout Protection — admin screen styles.
+ * Loaded only on WooCommerce → Checkout Protection. Builds on WordPress core
+ * admin styles; everything is scoped under .gph-cp.
+ */
+
+.gph-cp {
+	--gph-border: #dcdcde;
+	--gph-muted: #646970;
+	--gph-good-bg: #edfaef;
+	--gph-good: #00761f;
+	--gph-warn-bg: #fcf9e8;
+	--gph-warn: #8a6100;
+	--gph-bad-bg: #fcf0f1;
+	--gph-bad: #b32d2e;
+	--gph-neutral-bg: #f0f0f1;
+	max-width: 1200px;
+}
+
+/* Header */
+.gph-cp .gph-cp-title { margin-bottom: 4px; }
+.gph-cp-subtitle { margin: 0 0 12px; color: var(--gph-muted); font-size: 14px; }
+.gph-cp-tabs { margin-bottom: 20px; }
+.gph-cp-body { max-width: 1200px; }
+
+/* Cards */
+.gph-cp-card {
+	background: #fff;
+	border: 1px solid var(--gph-border);
+	border-radius: 8px;
+	padding: 20px 24px;
+	margin: 0 0 20px;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, .04);
+}
+.gph-cp-card > h2,
+.gph-cp-card-head h2 { margin: 0 0 8px; font-size: 16px; display: flex; align-items: center; gap: 8px; }
+.gph-cp-card-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+.gph-cp-card-head h2 { margin: 0; }
+.gph-cp-intro { margin: 0 0 8px; color: var(--gph-muted); max-width: 760px; }
+.gph-cp-card .form-table { margin-top: 0; }
+.gph-cp-card .form-table th { width: 220px; padding-left: 0; }
+.gph-cp-card .form-table td { padding-right: 0; }
+.gph-cp-card .description { max-width: 640px; }
+
+/* Stat tiles */
+.gph-cp-stats {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+	gap: 16px;
+	margin-bottom: 20px;
+}
+.gph-cp-stat {
+	background: #fff;
+	border: 1px solid var(--gph-border);
+	border-radius: 8px;
+	padding: 16px 18px;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 8px;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, .04);
+}
+.gph-cp-stat-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .04em; color: var(--gph-muted); }
+.gph-cp-stat-number { font-size: 28px; font-weight: 600; line-height: 1.1; }
+.gph-cp-stat-detail { color: var(--gph-muted); font-size: 13px; line-height: 1.5; }
+
+/* Pills */
+.gph-cp-pill {
+	display: inline-block;
+	padding: 3px 10px;
+	border-radius: 999px;
+	font-size: 12px;
+	font-weight: 600;
+	line-height: 1.5;
+	background: var(--gph-neutral-bg);
+	color: #1d2327;
+}
+.gph-cp-pill.is-good { background: var(--gph-good-bg); color: var(--gph-good); }
+.gph-cp-pill.is-warn { background: var(--gph-warn-bg); color: var(--gph-warn); }
+.gph-cp-pill.is-bad { background: var(--gph-bad-bg); color: var(--gph-bad); }
+.gph-cp-count { background: var(--gph-neutral-bg); border-radius: 999px; padding: 1px 9px; font-size: 12px; font-weight: 600; }
+
+/* Forms */
+.gph-cp-toggle { font-weight: 500; }
+.gph-cp .form-table td fieldset.gph-cp-checklist label { display: block; margin: 0 0 8px !important; line-height: 1.6; }
+.gph-cp-actions { margin: 4px 0 24px; }
+.gph-cp-actions .button-primary { min-width: 140px; }
+.gph-cp-preview {
+	background: var(--gph-bad-bg);
+	border-left: 4px solid var(--gph-bad);
+	padding: 10px 14px;
+	max-width: 640px;
+	border-radius: 0 4px 4px 0;
+}
+
+/* Tables */
+.gph-cp-table-wrap { overflow-x: auto; }
+.gph-cp-mini-table code, .gph-cp .wp-list-table code { white-space: nowrap; }
+.gph-cp-mini-table { border-radius: 6px; overflow: hidden; }
+.gph-cp-muted { display: block; color: var(--gph-muted); font-size: 12px; }
+.gph-cp-block { display: block; margin-top: 4px; }
+.gph-cp .wp-list-table .column-ref { width: 150px; }
+.gph-cp .wp-list-table .column-ip { width: 150px; }
+.gph-cp .wp-list-table td > span { display: block; }
+.gph-cp .wp-list-table td > .gph-cp-pill { display: inline-block; margin-top: 4px; }
+.gph-cp .wp-list-table td .row-actions span { display: inline; }
+.gph-cp .search-box { margin: 0 0 8px; }
+.gph-cp-empty { color: var(--gph-muted); margin: 8px 0 0; }
+
+/* Tips + danger zone */
+.gph-cp-tip ul { margin: 0 0 8px 18px; list-style: disc; }
+.gph-cp-danger { border-color: #f0b8b9; }
+.gph-cp-danger h2 { color: var(--gph-bad); }
+.gph-cp-confirm { display: block; margin: 12px 0; }
+.gph-cp .button.delete { color: var(--gph-bad); border-color: var(--gph-bad); }
+.gph-cp .button.delete:hover { background: var(--gph-bad); color: #fff; }
+
+/* Small screens */
+@media (max-width: 782px) {
+	.gph-cp-card { padding: 16px; }
+	.gph-cp-card .form-table th { width: auto; }
+	.gph-cp-card-head { flex-wrap: wrap; }
+}
