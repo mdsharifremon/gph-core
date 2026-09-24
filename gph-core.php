@@ -2,10 +2,10 @@
 /**
  * Plugin Name:       GPH Core
  * Plugin URI:        https://gaspumpheaven.com
- * Description:       Core business logic, SEO rules, and WooCommerce behavior for Gas Pump Heaven. <strong>WARNING:</strong> Deactivating this plugin will break critical site functionality including product sorting, SEO crawl control, and schema markup. Only disable for troubleshooting under expert supervision.
- * Version:           1.0.0
+ * Description:       Runs Gas Pump Heaven's store rules: checkout fraud protection (reCAPTCHA and failed-payment limits), product sorting, SKU display, shipping and cart notices, SEO crawl rules and schema. <strong>Do not deactivate or delete.</strong> The site stays online but silently loses all of these. Contact the developer first.
+ * Version:           1.1.0
  * Requires at least: 5.8
- * Requires PHP:      7.4
+ * Requires PHP:      8.0
  * Author:            Sharif Uddin
  * Author URI:        mailto:sharifwds@gmail.com
  * License:           GPL v2 or later
@@ -21,9 +21,10 @@ defined('ABSPATH') || exit;
 /**
  * Constants.
  */
-define('GPH_CORE_VERSION', '1.0.0');
+define('GPH_CORE_VERSION', '1.1.0');
 define('GPH_CORE_PATH', trailingslashit(plugin_dir_path(__FILE__)));
 define('GPH_CORE_URL', trailingslashit(plugin_dir_url(__FILE__)));
+define('GPH_CORE_BASENAME', plugin_basename(__FILE__));
 
 /**
  * Internal logger (debug only).
@@ -40,6 +41,24 @@ function gph_core_log($message) {
 add_action('init', function () {
 	load_plugin_textdomain('gph-core', false, dirname(plugin_basename(__FILE__)) . '/languages');
 }, 1);
+
+/**
+ * WooCommerce feature compatibility.
+ *
+ * - HPOS (custom_order_tables): compatible. Orders are only read/written via
+ *   WooCommerce's order API (wc_get_order, WC_Order methods, order notes);
+ *   cleanup.php handles both the posts and HPOS meta tables.
+ * - Cart/Checkout blocks: NOT compatible. Checkout protection (reCAPTCHA,
+ *   failed-payment limits) hooks the classic [woocommerce_checkout] flow only.
+ *   Declaring this makes WooCommerce warn anyone who switches to the block
+ *   checkout, instead of protection silently turning off.
+ */
+add_action('before_woocommerce_init', function () {
+	if (class_exists('\Automattic\WooCommerce\Utilities\FeaturesUtil')) {
+		\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility('custom_order_tables', __FILE__, true);
+		\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility('cart_checkout_blocks', __FILE__, false);
+	}
+});
 
 /**
  * Plugin bootstrap.
@@ -59,13 +78,17 @@ function gph_core_init() {
 		gph_core_require($file);
 	}
 
+	// ---- Plugins screen: action links + deactivate warning (admin only) ----
+	if (is_admin()) {
+		gph_core_require('inc/admin/plugins-screen.php');
+	}
+
 	// ---- Woo modules (only if WooCommerce is active) ----
 	if (class_exists('WooCommerce')) {
 		$woo_files = array(
 			'inc/woo-logic.php',
 			'inc/woo-loop-sku.php',
 			'inc/woo-shipping-notice.php',
-			'inc/order-notices.php',
 			'inc/checkout-protection/bootstrap.php',
 		);
 
